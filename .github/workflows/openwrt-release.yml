@@ -113,16 +113,6 @@ jobs:
           NO_SHFMT_CHECK: 1
           NO_REFRESH_CHECK: 1
           PRIVATE_KEY: ${{ secrets.REPO_APK_KEY }}
-          V: sc
-          BUILD_LOG: ${{ github.workspace }}/logs
-
-      - name: ⬆️ Upload build logs (always)
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: sdk-logs-${{ matrix.target }}-${{ matrix.version }}
-          path: logs/
-          if-no-files-found: ignore
 
       - name: 🔍 Debug build output
         run: |

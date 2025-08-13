@@ -68,9 +68,3 @@ Index: luci-app-yaaw/root/www/yaaw/TODO.md
 @@ -1,2 +0,0 @@
 -TODO
 -====
-Index: luci-app-yaaw/root/www/yaaw/.git
-===================================================================
---- luci-app-yaaw.orig/root/www/yaaw/.git
-+++ /dev/null
-@@ -1 +0,0 @@
--gitdir: ../../../../../.git/modules/source.openwrt.melmac.net/modules/luci-app-yaaw/modules/root/www/yaaw
