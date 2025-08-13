@@ -1,0 +1,3 @@
+[submodule "root/www/yaaw"]
+	path = root/www/yaaw
+	url = git@github.com:binux/yaaw.git
