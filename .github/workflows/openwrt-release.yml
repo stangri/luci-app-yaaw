@@ -51,8 +51,24 @@ jobs:
           #   target: mipsel_24kc
 
     steps:
-      - name: 🧾 Checkout repo
+      - name: 🧾 Checkout repo (with submodules)
         uses: actions/checkout@v4
+        with:
+          submodules: recursive
+          fetch-depth: 0
+
+      - name: 🔁 Sync & init submodules
+        run: |
+          git submodule sync --recursive
+          git submodule update --init --recursive
+          git submodule status --recursive
+
+      - name: 🔎 Verify submodule contents
+        run: |
+          set -e
+          echo "Submodule status:" && git submodule status --recursive || true
+          echo "Listing root/www/yaaw:" && ls -la root/www/yaaw || true
+          echo "Sample files under root/www/yaaw:" && find root/www/yaaw -maxdepth 1 -type f | head -n 20 || true
 
       - name: 📛 Set PKG_NAME from repo
         run: echo "PKG_NAME=${{ github.event.repository.name }}" >> "$GITHUB_ENV"
@@ -97,6 +113,16 @@ jobs:
           NO_SHFMT_CHECK: 1
           NO_REFRESH_CHECK: 1
           PRIVATE_KEY: ${{ secrets.REPO_APK_KEY }}
+          V: sc
+          BUILD_LOG: ${{ github.workspace }}/logs
+
+      - name: ⬆️ Upload build logs (always)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: sdk-logs-${{ matrix.target }}-${{ matrix.version }}
+          path: logs/
+          if-no-files-found: ignore
 
       - name: 🔍 Debug build output
         run: |
